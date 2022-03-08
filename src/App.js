@@ -1,11 +1,19 @@
-
-import './App.css';
+import { Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/nav/NavBar";
+import Home from './pages/home/Home'
+import Login from './pages/login/Login'
 
 function App() {
   return (
-    <div className="App">
-    <h1>hei</h1>
-    </div>
+    <>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route index element={<Home />}/>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+    </>
   );
 }
 
