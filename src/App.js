@@ -3,10 +3,12 @@ import NavBar from "./components/nav/NavBar";
 import Contact from "./pages/contact/Contact";
 import Home from './pages/home/Home'
 import Login from "./pages/login/Login";
+import AuthContext, { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <>
+    <AuthProvider>
     <Router>
       <NavBar />
       <Routes>
@@ -15,6 +17,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
+    </AuthProvider>
     </>
   );
 }
