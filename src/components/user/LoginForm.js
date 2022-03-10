@@ -61,13 +61,6 @@ const LoginForm = () => {
 
         <button>Send</button>
       </form>
-      <button
-        onClick={() => {
-          console.log(auth);
-        }}
-      >
-        log auth
-      </button>
     </>
   );
 };

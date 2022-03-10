@@ -1,15 +1,13 @@
 import React from 'react';
-import StyledLink from '../components/nav/StyledLink';
 import { useEffect, useState } from 'react';
-import { BOOKINGS_PATH } from '../utils/api';
+import { BOOKINGS_PATH } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import useToggle from '../hooks/useToggle';
-import useAxios from '../hooks/useAxios';
-import AuthContext from '../context/AuthContext';
-import BookingsForm from '../components/admin/BookingsForm';
-import { Flex } from '../components/siteblocks/Flex';
-import BookingCard from '../components/siteblocks/BookingCard';
+import useToggle from '../../hooks/useToggle';
+import useAxios from '../../hooks/useAxios';
+import AuthContext from '../../context/AuthContext';
+import BookingsForm from '../../components/admin/BookingsForm';
+
 
 const Admin = () => {
   const [isTriggered, setIsTriggered] = useToggle();
@@ -46,56 +44,18 @@ const Admin = () => {
   if (error) {
     return (
       <div>
-        <h1>You must be Authenticated to view this page</h1>
-        <h3>The server responded with: {error.status}</h3>
-        <p>{error.message}</p>
-        <p>Please Login</p>
-        <StyledLink to='/login'>Login</StyledLink>
+        <h1>Failed login</h1>
       </div>
     );
   }
 
-  const handleLogout = () => {
-    setAuth(null);
-    navigate('/login');
-  };
+  
 
-  if (bookings.length === 0) {
-    return <div>Loading...</div>;
-  }
+  
 
   return (
     <div>
-      <button onClick={handleLogout}>Logout</button>
-      <Flex flexDir='row' flexWrap='wrap' justifyContent='space-around'>
-        {bookings.map((item, idx) => {
-          const deleteBooking = async () => {
-            const responseData = await http.delete(
-              `${BOOKINGS_PATH}/${item.id}`
-            );
-            console.log(responseData);
-          };
-
-          const handleDelete = () => {
-            if (window.confirm('Are you sure?')) {
-              deleteBooking();
-              setIsTriggered();
-            } else {
-              return;
-            }
-          };
-          return (
-            <BookingCard key={idx}>
-              <p>{item.attributes.title} </p>
-              <StyledLink to={`/booking/${item.id}`}>EDIT</StyledLink>
-              <button onClick={handleDelete}>DELETE</button>
-            </BookingCard>
-          );
-        })}
-      </Flex>
-
-      <hr />
-      <BookingsForm sendBooking={sendBooking} />
+     <h1>Testing</h1>
     </div>
   );
 };
