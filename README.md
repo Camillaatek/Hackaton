@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
-https://hotelstrapi.herokuapp.com/admin
+https://hackaton-hotel.herokuapp.com/
+camillaatek@gmail.com
+Password123
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
