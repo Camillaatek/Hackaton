@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://hackaton-hotel.herokuapp.com/api/hotels'
