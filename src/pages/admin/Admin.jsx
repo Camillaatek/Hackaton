@@ -1,27 +1,29 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { BOOKINGS_PATH } from '../../utils/api';
-import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import useToggle from '../../hooks/useToggle';
 import useAxios from '../../hooks/useAxios';
 import AuthContext from '../../context/AuthContext';
 import BookingsForm from '../../components/admin/BookingsForm';
-
+import BookingCard from '../../components/siteblocks/BookingCard';
 
 const Admin = () => {
   const [isTriggered, setIsTriggered] = useToggle();
   const [error, setError] = useState();
   const [bookings, setBookings] = useState([]);
-  const navigate = useNavigate();
-  const [auth, setAuth] = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [auth] = useContext(AuthContext);
 
   const http = useAxios();
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       const data = await http.get(BOOKINGS_PATH);
       setBookings(data.data.data);
+      setIsLoading(false);
     };
 
     fetchData().catch((error) => setError(error.response.data.error));
@@ -44,18 +46,55 @@ const Admin = () => {
   if (error) {
     return (
       <div>
-        <h1>Failed login</h1>
+        <h1>You must be Authenticated to view this page</h1>
+        <h3>The server responded with: {error.status}</h3>
+        <p>{error.message}</p>
+        <p>Please Login</p>
       </div>
     );
   }
 
-  
-
-  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-     <h1>Testing</h1>
+      <h1>Welcome, {auth.user.username}</h1>
+      <hr />
+      <h2>Bookings List:</h2>
+      
+        {bookings.map((item, idx) => {
+          const deleteBooking = async () => {
+            const responseData = await http.delete(
+              `${BOOKINGS_PATH}/${item.id}`
+            );
+            console.log(responseData);
+          };
+
+          const handleDelete = () => {
+            if (window.confirm('Are you sure?')) {
+              deleteBooking();
+              setIsTriggered();
+            } else {
+              return;
+            }
+          };
+          return (
+            <BookingCard key={idx}>
+              <h3>{item.attributes.title}</h3>
+              
+              <button className='defaultBtn' onClick={handleDelete}>
+                DELETE
+              </button>
+            </BookingCard>
+          );
+        })}
+      
+
+      <hr />
+      <h2>Manual Booking entry: </h2>
+      <BookingsForm sendBooking={sendBooking} />
     </div>
   );
 };
